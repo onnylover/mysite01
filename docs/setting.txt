@@ -1,0 +1,81 @@
+
+▶︎ mysite django project and Setting
+
+1. Install django (terminal) :
+(venv) # pip install django
+
+2. Install mysqlclient (on macbook, 3.x python)  --> If ORM, must not
+(venv) # pip install mysql-connector-python
+(venv) # pip install pymysql
+
+3. Making new django project
+(venv) # django-admin startproject django_practice
+
+4. Organize folder
+
+5. Set default setting (settings.py)
+1) time zone (locale, rec. capital)
+TIME_ZONE = "ASIA/SEOUL"
+2) database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'webDB',
+        'USER': 'webDB',
+        'PASSWORD': 'webDB',
+        'HOST': 'localhost',
+        'PORT': '3306'
+    }
+}
+3) import pymysql
+import pymysql
+pymysql.install_as_MySQLdb()
+
+4) DATE TIME formatting
+DATETIME_FORMAT =0 "Y-m-d P h:i:s"
+L1ON = False
+USE_TZ = False
+
+6. Making django project control app DB
+(venv) # python manage.py makemigrations
+(venv) # python manage.py migrate
+
+cf ) mysql 5.x error / add on manage.py
+```python
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
+```
+
+7-1. Delete superuser
+
+7-2. Reconfirm all settings
+1) running server
+(venv) # python manage.py runserver 0.0.0.0:9999
+2) check thru browser
+- url http://localhost:9999
+- log in with admin (password)
+
+8. Append application on django project
+1) make folder : templates
+2) add settings.py
+import os
+'DIRS' : [os.path.join(BASE_DIR, 'templates')]
+
+9. Making (helloworld) application
+1) make application
+(venv) # python manage.py startapp helloworld
+2) registry application (settings.py)
+INSTALLED_APPS = [
+    'helloworld',
+]
+3) add application directory on template
+4) setting urls
+urlpatterns = [
+    path('hello1/', helloworld.views.hello1),
+]
+
+10. Setting statics (css. js. images)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "statics"),
+]
+STATIC_URL = '/assets/'

@@ -17,6 +17,7 @@ from django.urls import path
 import main.views as mainviews
 import guestbook.views as guestbookviews
 import user.views as userviews
+import board.views as boardviews
 
 urlpatterns = [
     #admin 삭제 : path('admin/', admin.site.urls),
@@ -31,5 +32,17 @@ urlpatterns = [
     path('user/joinform', userviews.joinform),
     path('user/join', userviews.join),
     path('user/joinsuccess', userviews.joinsuccess),
+    path('user/loginform', userviews.loginform),
+    path('user/login', userviews.login),
+    path('user/logout', userviews.logout),
+    path('user/updateform', userviews.updateform),
+    path('user/update', userviews.update),
+    path('user/updatesuccess', userviews.updatesuccess),
+
+    path('board/', boardviews.index),
+    path('board/view', boardviews.view),
+    path('board/writeform', boardviews.writeform),
+    path('board/updateform', boardviews.updateform),
+    # path('board/update', boardviews.update),
 
 ]

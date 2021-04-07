@@ -14,7 +14,6 @@ from pathlib import Path
 import pymysql
 pymysql.install_as_MySQLdb()
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     'guestbook',
     'mathfilters',
     'user',
+    'board',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +132,6 @@ STATICFILES_DIRS = [
 
 ]
 STATIC_URL = '/assets/'
+
+# session cookies(csrftoken) stored in memory
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

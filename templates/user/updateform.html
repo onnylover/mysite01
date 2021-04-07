@@ -1,0 +1,29 @@
+{% extends '../base.html' %}
+{% block filter %}
+{% load mathfilters %}
+{% endblock %}
+{% block css_link %}
+<link href="/assets/css/user.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+			<div id="user">
+				<form id="join-form" name="updateform" method="post" action="/user/update"> {% csrf_token %}
+					<label class="block-label" for="name">Name</label>
+					<input id="name" name="name" type="text" value="{{ results.name }}">
+
+					<label class="block-label" for="email">Email</label>
+					<h4>{{ results.email }}</h4>
+					
+					<label class="block-label">Password</label>
+					<input name="password" type="password" value="{{ results.password }}">
+					
+					<fieldset>
+						<legend>Gender</legend>
+						<label>Female</label> <input type="radio" name="gender" value="female" {% if results.gender != "male" %} checked="checked" {% endif %}>
+						<label>Male</label> <input type="radio" name="gender" value="male" {% if results.gender != "female" %} checked="checked" {% endif %}>
+					</fieldset>
+
+					<input type="submit" value="Modify">
+				</form>
+			</div>
+{% endblock %}

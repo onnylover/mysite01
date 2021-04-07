@@ -3,8 +3,15 @@ import mysql.connector
 def conn():
     return  mysql.connector.connect(host='localhost', port='3306', database='webDB', user='webDB', password='webDB')
 
-def findbyno():
-    pass
+def findbyno(no):
+    #이름, 이메일, 성별을 updateform 에 뿌려줌
+    db = conn()
+    cursor = db.cursor(dictionary=True)
+    query = f"select name, email, gender, password from user where no={no}"
+    cursor.execute(query)
+    results = cursor.fetchone()
+    cursor.close()
+    return results
 
 def findbyemail_and_password(email, password):
     db = conn()
@@ -51,9 +58,14 @@ def insert (name, email, password, gender):
     #return
     return count == 1
 
-def update(name, password):
-    pass
-    #4/7 과제
+def update(name, password, gender, no):
+    db = conn()
+    cursor = db.cursor(dictionary=True)
+    query = '''update user set name=%s, password=%s, gender=%s where no=%s'''
+    count = cursor.execute(query, (name, password, gender, no))
+    db.commit()
+    cursor.close()
+    db.close()
 
 def deletebynoandpw(no, password):
     db = conn()

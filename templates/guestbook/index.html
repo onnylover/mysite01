@@ -11,14 +11,14 @@
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
-							<td>이름</td><td><input type="text" name="name"></td>
-							<td>비밀번호</td><td><input type="password" name="pass"></td>
+							<td>Name</td><td><input type="text" name="name"></td>
+							<td>Password</td><td><input type="password" name="pass"></td>
 						</tr>
 						<tr>
 							<td colspan=4><textarea name="content" id="content"></textarea></td>
 						</tr>
 						<tr>
-							<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
+							<td colspan=4 align=right><input type="submit" VALUE=" SEND "></td>
 						</tr>
 					</table>
 				</form>
@@ -30,7 +30,7 @@
 								<td>[{{ results | length | sub:forloop.counter | add:1 }}]</td>
 								<td>{{ result.name }}</td>
 								<td>{{ result.reg_date }}</td>
-								<td><a href="/guestbook/deleteform?no={{ result.no }}">삭제</a></td>
+								<td><a href="/guestbook/deleteform?no={{ result.no }}">DEL</a></td>
 							</tr>
 							<tr>
 								<td colspan=4>{{ result.message | linebreaksbr }}</td>

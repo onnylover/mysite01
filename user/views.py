@@ -68,7 +68,8 @@ def update(request):
     gender = request.POST["gender"]
     models.update(name,password,gender,no)
 
-    return render(request, "user/updatesuccess.html")
+    return HttpResponseRedirect("/user/updatesuccess")
 
 def updatesuccess(request):
+    del request.session["authuser"]
     return render(request, "user/updatesuccess.html")

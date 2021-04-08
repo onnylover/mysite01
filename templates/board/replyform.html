@@ -1,0 +1,35 @@
+{% extends '../base.html' %}
+{% block css_link %}
+<link href="/assets/css/board.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+			<div id="board">
+				<form class="board-form" method="post" action="/board/reply"> {% csrf_token %}
+					<input type = "hidden" name = "g_no" value="{{results.g_no}}">
+					<input type = "hidden" name = "o_no" value="{{results.o_no}}">
+					<input type = "hidden" name = "depth" value="{{results.depth}}">
+					<table class="tbl-ex">
+						<tr>
+							<th colspan="2">R E P L Y</th>
+						</tr>
+						<tr>
+							<td class="label">TITLE</td>
+							<td><input type="text" name="title" value=" RE : {{ results.title }}"></td>
+						</tr>
+						<tr>
+							<td class="label">CONTENT</td>
+							<td>
+							<textarea id="content" name="content">
+
+								<--------------| ORIGINAL CONTENTS |-------------->
+								{{results.contents}}</textarea>
+							</td>
+						</tr>
+					</table>
+					<div class="bottom">
+						<a href="/board/view?no={{ results.no }}">Cancel</a>
+						<input type="submit" value="Reply">
+					</div>
+				</form>				
+			</div>
+{% endblock %}

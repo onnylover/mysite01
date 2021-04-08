@@ -3,30 +3,37 @@
 <link href="/assets/css/board.css" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-			<div id="board" class="board-form">
+			<div id="board" class="board-form"> {% csrf_token %}
 				<table class="tbl-ex">
 					<tr>
-						<th colspan="2">R E A D</th>
+						<th colspan="2">V I E W</th>
 					</tr>
 					<tr>
 						<td class="label">TITLE</td>
-						<td>제목입니다.</td>
+						<td>{{ results.title }}</td>
 					</tr>
 					<tr>
 						<td class="label">CONTENT</td>
 						<td>
 							<div class="view-content">
-								내용 1입니다.<br>
-								내용 2입니다.<br>
-								내용 3입니다.
+								{{ results.contents | linebreaksbr }}
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
+					{% if request.session.authuser is None %}
 					<a href="/board">List</a>
-					<a href="/board/updateform">Modify</a>
-					<a href="/board/reply">Reply</a>
+					{% else %}
+						{% if request.session.authuser.no == results.user_no %}
+						<a href="/board">List</a>
+						<a href="/board/replyform?no={{ results.no }}">Reply</a>
+						<a href="/board/updateform?no={{ results.no }}">Modify</a>
+						{% else %}
+						<a href="/board">List</a>
+						<a href="/board/replyform?no={{ results.no }}">Reply</a>
+						{% endif %}
+					{% endif %}
 				</div>
 			</div>
 {% endblock %}

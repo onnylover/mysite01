@@ -1,0 +1,78 @@
+{% extends '../base.html' %}
+{% block filter %}
+{% load mathfilters %}
+{% endblock %}
+{% block css_link %}
+<link href="/assets/css/board.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+			<div id="board">
+				<form id="search_form" action="/board/search?kwd={{ kwd }}" method="post"> {% csrf_token %}
+					<input type="text" id="kwd" name="kwd" value="{{ kwd }}">
+					<input type="submit" value="Search"><br/><br/>
+					(REMARK) Search just in title, contents and username at this moment.
+				</form>
+				<table class="tbl-ex">
+					<tr>
+						<th>No</th>
+						<th>TITLE</th>
+						<th>WRITER</th>
+						<th>HIT</th>
+						<th>WRITE DATE</th>
+						<th>&nbsp;</th>
+					</tr>
+					{% for sboardlist in sboardlists %}
+					<tr>
+						<td>{{ scount | sub:forloop.counter | add:1 }}</td>
+						<td><a href="/board/view?no={{ sboardlist.no }}" style="text-align:left; padding-left:{{ boardlist.depth | mul:15 }}px">{% if sboardlist.depth != 0 %}<img src="/assets/images/reply.png"/> {% endif %}{{ sboardlist.title }}</a></td>
+						<td>{{ sboardlist.name }}</td>
+						<td data-model-name="hit">{{ boardlist.hit }}</td>
+						<td>{{ sboardlist.reg_date | date:"Y-m-d H:i:s" }}</td>
+						<td>{% if request.session.authuser.no == sboardlist.user_no %}<a href="/board/delete?no={{ sboardlist.no }}" class="del">Delete</a>{% endif %}</td>
+					</tr>
+					{% endfor %}
+				</table>
+				
+				<!-- pager 추가 -->
+				<div class="pager">
+					<ul>
+						{% if sprvpage <= 0 %}
+						<li><a href="/board/search?s=1&kwd={{kwd}}">◀</a></li>
+						<li><a href="">...</a></li>
+						{% else %}
+							{% if sprv2page <= 0 %}
+							<li><a href="/board/search?s=1&kwd={{kwd}}">◀</a></li>
+							<li><a href="">...</a></li>
+							<li><a href="/board/search?s={{ sprvpage }}&kwd={{kwd}}">{{ sprvpage }}</a></li>
+							{% else %}
+							<li><a href="/board/search?s=1">◀</a></li>
+							<li><a href="/board/search?s={{ sprv2page }}&kwd={{kwd}}">{{ sprv2page }}</a></li>
+							<li><a href="/board/search?s={{ sprvpage }}&kwd={{kwd}}">{{ sprvpage }}</a></li>
+							{% endif %}
+						{% endif %}
+						<li class="selected">{{ scurrpage }}</li>
+						{% if snextpage > slistcount %}
+						<li><a href="">...</a></li>
+						<li><a href="/board/search?s={{slistcount}}&kwd={{kwd}}">▶</a></li>
+						{% else %}
+							{% if snext2page > slistcount %}
+							<li><a href="/board/search?s={{ snextpage }}&kwd={{kwd}}">{{ snextpage }}</a></li>
+							<li><a href="">...</a></li>
+							<li><a href="/board/search?s={{slistcount}}&kwd={{kwd}}">▶</a></li>
+							{% else %}
+							<li><a href="/board/search?s={{ snextpage }}&kwd={{kwd}}">{{ snextpage }}</a></li>
+							<li><a href="/board/search?s={{ snext2page }}&kwd={{kwd}}">{{ snext2page}}</a></li>
+							<li><a href="/board/search?s={{ slistcount }}&kwd={{kwd}}">▶</a></li>
+							{% endif %}
+						{% endif %}
+					</ul>
+				</div>					
+				<!-- pager 추가 -->
+				{% if request.session.authuser is None %}
+				{% else %}
+				<div class="bottom">
+					<a href="/board/writeform" id="new-book">WRITE</a>
+				</div>
+				{% endif %}
+			</div>
+{% endblock %}

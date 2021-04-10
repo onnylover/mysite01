@@ -6,12 +6,21 @@ from django.http import HttpResponseRedirect
 
 
 def conn():
-    return  mysql.connector.connect(host='localhost', port='3306', database='webDB', user='webDB', password='webDB')
+    return mysql.connector.connect(host='localhost', port='3306', database='webDB', user='webDB', password='webDB')
 
 def countno():
     db = conn()
     cursor = db.cursor(dictionary=True)
-    query = f"""select count(no) as count from board"""
+    query = f"""select count(a.no) as count from board a, user b where a.user_no = b.no """
+    cursor.execute(query)
+    results = cursor.fetchone()
+    cursor.close()
+    return results.get("count")
+
+def scountno(kwd):
+    db = conn()
+    cursor = db.cursor(dictionary=True)
+    query = f'''select count(a.no) as count from board a join user b on a.user_no = b.no where a.contents like "%{kwd}%" or a.title like "%{kwd}%" or b.name like "%{kwd}%"'''
     cursor.execute(query)
     results = cursor.fetchone()
     cursor.close()
@@ -29,7 +38,18 @@ def maxgno():
 def listcall(page,limit):
     db = conn()
     cursor = db.cursor(dictionary=True)
-    query = f"""select a.no, a.g_no, a.o_no, a.depth, a.title, b.name, a.hit, a.reg_date, a.user_no from board a, user b where a.user_no = b.no order by a.g_no desc, a.o_no asc limit {int(page)*10-10},{limit}"""
+    query = f"""select a.no, a.g_no, a.o_no, a.depth, a.title, b.name, a.hit, a.reg_date, a.user_no from board a join user b on a.user_no = b.no order by a.g_no desc, a.o_no asc limit {int(page)*10-10},{limit}"""
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    return results
+
+def searchcall(page,limit,kwd):
+    db = conn()
+    cursor = db.cursor(dictionary=True)
+    # if kwd is not None:
+    #     args = f'''where a.contents like "%{kwd}%" or a.title like "%{kwd}%" or b.name like "%{kwd}%"'''
+    query = f'''select a.no, a.g_no, a.o_no, a.depth, a.title, b.name, a.hit, a.reg_date, a.user_no from board a join user b on a.user_no = b.no where a.contents like "%{kwd}%" or a.title like "%{kwd}%" or b.name like "%{kwd}%" order by a.g_no desc, a.o_no asc limit {int(page)*10-10},{limit}'''
     cursor.execute(query)
     results = cursor.fetchall()
     cursor.close()

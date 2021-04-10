@@ -126,4 +126,3 @@ def reply(request):
     models.reply(title, contents, g_no, o_no, depth, no)
     return HttpResponseRedirect("/board")
 
-

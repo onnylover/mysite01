@@ -6,7 +6,7 @@ select * from board;
 
 -- select max(no) as max from board; -- g_no +1로 해결하면 될듯
 
-select count(a.no) from board a join user b on a.user_no = b.no where a.contents like "%신규%" or a.title like "%신규%" or b.name like "%신규%";
+select count(a.no) from board a join user b on a.user_no = b.no where a.contents like "%ET%" or a.title like "%ET%" or b.name like "%ET%";
 
 select count(no) from board;
 select a.g_no, a.o_no, a.depth, a.title, b.name, a.hit, a.reg_date from board a, user b where a.user_no = b.no order by a.g_no desc, a.o_no asc;

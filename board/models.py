@@ -47,8 +47,6 @@ def listcall(page,limit):
 def searchcall(page,limit,kwd):
     db = conn()
     cursor = db.cursor(dictionary=True)
-    # if kwd is not None:
-    #     args = f'''where a.contents like "%{kwd}%" or a.title like "%{kwd}%" or b.name like "%{kwd}%"'''
     query = f'''select a.no, a.g_no, a.o_no, a.depth, a.title, b.name, a.hit, a.reg_date, a.user_no from board a join user b on a.user_no = b.no where a.contents like "%{kwd}%" or a.title like "%{kwd}%" or b.name like "%{kwd}%" order by a.g_no desc, a.o_no asc limit {int(page)*10-10},{limit}'''
     cursor.execute(query)
     results = cursor.fetchall()

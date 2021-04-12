@@ -24,9 +24,9 @@
 					{% for sboardlist in sboardlists %}
 					<tr>
 						<td>{{ scount | sub:forloop.counter | add:1 }}</td>
-						<td><a href="/board/view?no={{ sboardlist.no }}" style="text-align:left; padding-left:{{ boardlist.depth | mul:15 }}px">{% if sboardlist.depth != 0 %}<img src="/assets/images/reply.png"/> {% endif %}{{ sboardlist.title }}</a></td>
+						<td><a href="/board/view?no={{ sboardlist.no }}" style="text-align:left; padding-left:{{ sboardlist.depth | mul:15 }}px">{% if sboardlist.depth != 0 %}<img src="/assets/images/reply.png"/> {% endif %}{{ sboardlist.title }}</a></td>
 						<td>{{ sboardlist.name }}</td>
-						<td data-model-name="hit">{{ boardlist.hit }}</td>
+						<td data-model-name="hit">{{ sboardlist.hit }}</td>
 						<td>{{ sboardlist.reg_date | date:"Y-m-d H:i:s" }}</td>
 						<td>{% if request.session.authuser.no == sboardlist.user_no %}<a href="/board/delete?no={{ sboardlist.no }}" class="del">Delete</a>{% endif %}</td>
 					</tr>

@@ -33,6 +33,7 @@ def search(request):
         kwd = request.GET.get("kwd")
     scount = models.scountno(kwd)
     sboardlists = models.searchcall(spage, LIST_COUNT, kwd)
+    print(sboardlists)
     slistcount = math.ceil(scount / LIST_COUNT)
     data = {
             "sboardlists": sboardlists,
